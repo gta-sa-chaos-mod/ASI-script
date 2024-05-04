@@ -9,6 +9,14 @@ using namespace plugin;
 class WarpPlayerIntoRandomVehicleEffect : public EffectBase
 {
 public:
+    bool
+    CanActivate () override
+    {
+        int poolSize = CPools::ms_pVehiclePool->m_nSize;
+
+        return !CONFIG_CC_ENABLED || poolSize > 0;
+    }
+
     void
     OnStart (EffectInstance *inst) override
     {
@@ -26,9 +34,8 @@ public:
 
         CPlayerPed *player  = FindPlayerPed ();
         CVehicle   *vehicle = GetRandomVehicle (inst);
-        if (!vehicle || !vehicle->CanBeDriven ()
-            || vehicle->m_nStatus == STATUS_WRECKED
-            || vehicle->m_pDriver == player)
+
+        if (!IsVehicleValid (vehicle))
         {
             inst->ResetTimer ();
             return;
@@ -55,6 +62,21 @@ public:
         if (!pad) return;
 
         pad->bDisablePlayerEnterCar = false;
+    }
+
+    bool
+    IsVehicleValid (CVehicle *vehicle)
+    {
+        CPlayerPed *player = FindPlayerPed ();
+
+        if (!vehicle || !vehicle->CanBeDriven ()
+            || vehicle->m_nStatus == STATUS_WRECKED
+            || vehicle->m_pDriver == player)
+        {
+            return false;
+        }
+
+        return true;
     }
 
     CVehicle *
