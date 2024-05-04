@@ -23,10 +23,11 @@ public:
     // These functions return whether to continue execution
     bool HandleOnQueue () const;
     bool HandleOnAddEffect (EffectBase *effect) const;
-    bool HandleOnEffectIncompatibility () const;
+    bool HandleOnEffectIncompatibility (bool same_effect) const;
     bool HandleOnEffectActivated (bool isOneTimeEffect) const;
 
-    explicit operator bool () const
+    explicit
+    operator bool () const
     {
         return IsCrowdControlEnabled () && crowdControlId != -1;
     }

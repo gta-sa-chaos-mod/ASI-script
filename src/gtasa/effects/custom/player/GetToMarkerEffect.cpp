@@ -96,10 +96,6 @@ public:
                                        ? eBlipDisplay::BLIP_DISPLAY_NEITHER
                                        : eBlipDisplay::BLIP_DISPLAY_BOTH;
 
-        if (CONFIG_CC_ENABLED
-            && CONFIG ("CrowdControl.Effects.GetToTheMarker.ShowOnMap", false))
-            displayMode = eBlipDisplay::BLIP_DISPLAY_BOTH;
-
         CRadar::ChangeBlipDisplay (coordBlip, displayMode);
 
         SetPlanesLocked (true);

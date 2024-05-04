@@ -22,7 +22,7 @@ public:
     }
 
     bool
-    HandleOnEffectIncompatibility () const
+    HandleOnEffectIncompatibility (bool same_effect = false) const
     {
         return true;
     }
@@ -61,11 +61,12 @@ public:
     }
 
     bool
-    HandleOnEffectIncompatibility () const
+    HandleOnEffectIncompatibility (bool same_effect = false) const
     {
-        return (...
-                & std::get<SubHandlers> (handlers)
-                      .HandleOnEffectIncompatibility ());
+        return (
+            ...
+            & std::get<SubHandlers> (handlers).HandleOnEffectIncompatibility (
+                same_effect));
     }
 
     bool

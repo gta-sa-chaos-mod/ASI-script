@@ -133,7 +133,11 @@ EffectHandler::QueueEffect (EffectBase *effect, const nlohmann::json &data)
 
             if (inst.IsOtherEffectIncompatible (i))
             {
-                if (!handlers.HandleOnEffectIncompatibility ()) return;
+                bool same_effect = i.GetEffect ()->GetMetadata ().id
+                                   == inst.GetEffect ()->GetMetadata ().id;
+
+                if (!handlers.HandleOnEffectIncompatibility (same_effect))
+                    return;
 
                 i.Disable ();
             }

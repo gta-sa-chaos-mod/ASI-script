@@ -46,12 +46,25 @@ EffectCrowdControlHandler::HandleOnAddEffect (EffectBase *effect) const
 }
 
 bool
-EffectCrowdControlHandler::HandleOnEffectIncompatibility () const
+EffectCrowdControlHandler::HandleOnEffectIncompatibility (
+    bool same_effect) const
 {
     if (*this)
     {
-        SendRetry ();
-        return false;
+        // Check for exact same name
+        if (same_effect)
+        {
+            SendRetry ();
+            return false;
+        }
+
+        if (CONFIG ("CrowdControl.CheckForIncompatibleEffects", true))
+        {
+            SendRetry ();
+            return false;
+        }
+
+        SendSucceeded ();
     }
 
     return true;

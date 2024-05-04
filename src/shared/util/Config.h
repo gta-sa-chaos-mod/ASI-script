@@ -165,11 +165,13 @@ Enabled = false
 # Default: true
 PreventNewEffectsWhenFull = true
 
-[CrowdControl.Effects.GetToTheMarker]
-
-# Whether to show the marker on the big map in the pause menu
-# Default: true
-ShowOnMap = true
+# Ensures that effects overriding one another aren't activated at the same time.
+#
+# Example: One Hit K.O. is still active and someone redeems Infinite Health.
+# This would prevent Infinite Health from being activated until One Hit K.O. is over.
+#
+# Default: false
+CheckForIncompatibleEffects = false
 
 #######################################################)";
 #else
