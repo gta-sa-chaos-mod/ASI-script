@@ -170,7 +170,7 @@ private:
         if (!FrontEndMenuManager.m_bMenuActive && KeyPressed (VK_F7)
             && lastQuickSave < currentTime)
         {
-            lastQuickSave = currentTime + 10000;
+            lastQuickSave = currentTime + 1000;
 
             nlohmann::json json;
 
