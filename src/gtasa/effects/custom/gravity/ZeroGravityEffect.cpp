@@ -11,8 +11,20 @@ public:
     {
         GameUtil::SetVehiclesToRealPhysics ();
 
+        CPlayerPed *player = FindPlayerPed ();
+        if (!player) return;
+
         for (CPed *ped : CPools::ms_pPedPool)
+        {
+            if (ped == player)
+            {
+                // Don't apply gravity effects to the player if they are using a
+                // jetpack
+                if (player->m_pIntelligence->GetTaskJetPack ()) continue;
+            }
+
             NegateGravity (ped);
+        }
 
         for (CVehicle *vehicle : CPools::ms_pVehiclePool)
             NegateGravity (vehicle);
