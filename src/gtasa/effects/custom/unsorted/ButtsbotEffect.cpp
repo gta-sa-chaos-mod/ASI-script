@@ -122,6 +122,15 @@ public:
     {
         int random = instance->Random (0, (int) strings.size () - 1);
 
+        // ~k~ strings are used for input replacements (e.g. ~k~~GO_BACK~ which
+        // would be replaced into "RETURN" or similar)
+        if (strings[random].find_first_of ("~k~") != std::string::npos)
+        {
+            exclude.insert (random);
+
+            return GetRandomVectorPosition (strings, exclude);
+        }
+
         return exclude.contains (random)
                    ? GetRandomVectorPosition (strings, exclude)
                    : random;
