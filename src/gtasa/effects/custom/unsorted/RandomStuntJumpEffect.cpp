@@ -48,6 +48,7 @@ public:
     {
         inst->SetDuration (1000 * 120);
         inst->SetTimerVisible (false);
+        inst->SetIsOneTimeEffect ();
         wait       = 3000;
         teleported = false;
     }

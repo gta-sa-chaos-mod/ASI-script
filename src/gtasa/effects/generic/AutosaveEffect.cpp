@@ -17,6 +17,7 @@ public:
         didSave        = false;
         missionsPassed = inst->GetCustomData ().value ("missionsPassed", 0);
 
+        inst->SetIsOneTimeEffect ();
         inst->OverrideName ("Autosaving...");
     }
 
