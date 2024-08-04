@@ -2,6 +2,8 @@
 #include "util/GenericUtil.h"
 #include "util/GlobalRenderer.h"
 
+// TODO: Blacklist "Highjack" vehicles as well
+
 template <RwV3d scale, float zAdjustment = 0.0f>
 class VehicleSizeEffect : public EffectBase
 {

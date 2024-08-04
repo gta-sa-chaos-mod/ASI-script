@@ -2,6 +2,8 @@
 #include "util/GenericUtil.h"
 #include "util/GlobalRenderer.h"
 
+// TODO: Blacklist "Highjack" vehicles as well
+
 template <RwV3d rotation, float angle, float perTick = 0.0f>
 class VehicleRotationEffect : public EffectBase
 {

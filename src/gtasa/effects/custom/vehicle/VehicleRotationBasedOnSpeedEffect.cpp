@@ -2,6 +2,8 @@
 #include "util/GenericUtil.h"
 #include "util/GlobalRenderer.h"
 
+// TODO: Blacklist "Highjack" vehicles as well
+
 using namespace plugin;
 
 class VehicleRotationBasedOnSpeedEffect : public EffectBase
