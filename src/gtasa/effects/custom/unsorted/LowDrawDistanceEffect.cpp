@@ -12,6 +12,4 @@ public:
     }
 };
 
-DEFINE_EFFECT (LowDrawDistanceEffect, "effect_low_draw_distance",
-               GROUP_NPC_SPAWNS | GROUP_CAMERA | GROUP_VISION
-                   | GROUP_VEHICLE_RARITY);
+DEFINE_EFFECT (LowDrawDistanceEffect, "effect_low_draw_distance", GROUP_VISION);

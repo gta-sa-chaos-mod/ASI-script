@@ -32,6 +32,4 @@ public:
     }
 };
 
-DEFINE_EFFECT (MistEffect, "effect_mist",
-               GROUP_NPC_SPAWNS | GROUP_CAMERA | GROUP_VISION | GROUP_WEATHER
-                   | GROUP_VEHICLE_RARITY);
+DEFINE_EFFECT (MistEffect, "effect_mist", GROUP_VISION | GROUP_WEATHER);
