@@ -23,6 +23,7 @@ private:
 
     std::string overrideName;
     std::string subtext;
+    std::string soundId;
 
     int remaining = 0;
     int duration  = 0;
@@ -98,6 +99,18 @@ public:
         return subtext;
     }
 
+    std::string_view
+    GetSoundID ()
+    {
+        return this->soundId;
+    }
+
+    void
+    SetSoundID (std::string_view soundId)
+    {
+        this->soundId = soundId;
+    }
+
     void
     SetTimerVisible (bool timerVisible)
     {
@@ -163,6 +176,7 @@ public:
     SetCustomData (const nlohmann::json &data)
     {
         if (data.contains ("seed")) randomHelper.SetSeed (data["seed"]);
+        if (data.contains ("soundId")) this->SetSoundID (data["soundId"]);
 
         this->customData = data;
     }

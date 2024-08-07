@@ -148,6 +148,7 @@ EffectHandler::QueueEffect (EffectBase *effect, const nlohmann::json &data)
 
         inst.SetSubHandlers (handlers);
         inst.SetDuration (data["duration"]);
+        inst.SetSoundID (effect->GetID ());
 
         if (data.contains ("effectData"))
             inst.SetCustomData (data["effectData"]);
