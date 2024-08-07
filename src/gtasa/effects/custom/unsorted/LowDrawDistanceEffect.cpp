@@ -8,7 +8,7 @@ public:
     void
     OnTick (EffectInstance *inst) override
     {
-        CTimeCycle::m_CurrentColours.m_fFarClip = 200.0f;
+        CTimeCycle::m_CurrentColours.m_fFarClip = 100.0f;
     }
 };
 

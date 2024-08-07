@@ -28,7 +28,7 @@ public:
         CClock::ms_nGameClockMinutes = 0;
         CClock::ms_nGameClockSeconds = 0;
         CWeather::ForceWeatherNow (forceWeather);
-        CTimeCycle::m_CurrentColours.m_fFarClip = 150.0f;
+        CTimeCycle::m_CurrentColours.m_fFarClip = 100.0f;
     }
 };
 
