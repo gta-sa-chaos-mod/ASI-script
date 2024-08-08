@@ -8,12 +8,12 @@
 
 using namespace plugin;
 
-using weapon_list = std::initializer_list<int>;
+using weapon_list = std::initializer_list<eWeaponType>;
 
 class GiveNPCsAWeaponEffect : public OneTimeEffect
 {
 private:
-    std::vector<int> weapons;
+    std::vector<eWeaponType> weapons;
 
 public:
     GiveNPCsAWeaponEffect (weapon_list weaponsList) : weapons (weaponsList) {}
@@ -23,23 +23,24 @@ public:
     {
         CPlayerPed *player = FindPlayerPed ();
 
-        for (auto w : weapons)
+        for (auto weapon : weapons)
         {
-            int m = CPickups::ModelForWeapon (eWeaponType (w));
-            CStreaming::RequestModel (m, 2);
-            CStreaming::SetModelIsDeletable (m);
-        }
+            int model = CPickups::ModelForWeapon (weapon);
+            CStreaming::RequestModel (model, 2);
+            CStreaming::LoadAllRequestedModels (false);
 
-        CStreaming::LoadAllRequestedModels (false);
+            CStreaming::SetModelIsDeletable (model);
+        }
 
         for (CPed *ped : CPools::ms_pPedPool)
         {
             if (ped == player) continue;
 
-            auto w = weapons[inst->Random (1, 100000) % weapons.size ()];
-            Command<eScriptCommands::COMMAND_GIVE_WEAPON_TO_CHAR> (ped, w,
+            auto weapon = weapons[inst->Random (1, 100000) % weapons.size ()];
+            Command<eScriptCommands::COMMAND_GIVE_WEAPON_TO_CHAR> (ped, weapon,
                                                                    9999);
-            Command<eScriptCommands::COMMAND_SET_CURRENT_CHAR_WEAPON> (ped, w);
+            Command<eScriptCommands::COMMAND_SET_CURRENT_CHAR_WEAPON> (ped,
+                                                                       weapon);
         }
     }
 };
