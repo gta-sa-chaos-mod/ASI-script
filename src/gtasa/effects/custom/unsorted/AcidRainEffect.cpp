@@ -18,13 +18,16 @@ constexpr std::array<int, 12> openTopCars
 class AcidRainEffect : public EffectBase
 {
 private:
-    int time         = 0;
-    int forceWeather = WEATHER_RAINY_SF;
+    eWeatherType oldWeather   = eWeatherType::WEATHER_EXTRASUNNY_LA;
+    int          time         = 0;
+    int          forceWeather = WEATHER_RAINY_SF;
 
 public:
     void
     OnStart (EffectInstance *inst) override
     {
+        this->oldWeather = (eWeatherType) CWeather::OldWeatherType;
+
         isCullZone = reinterpret_cast<GetIsCullzoneDarkAtPoint_f> (0x72d970);
         time       = 0;
 
@@ -33,6 +36,12 @@ public:
         {
             forceWeather = WEATHER_RAINY_COUNTRYSIDE;
         }
+    }
+
+    void
+    OnEnd (EffectInstance *inst) override
+    {
+        CWeather::ForceWeatherNow (this->oldWeather);
     }
 
     void
