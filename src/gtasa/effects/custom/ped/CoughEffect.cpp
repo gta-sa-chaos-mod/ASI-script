@@ -33,14 +33,20 @@ public:
         timer = inst->Random (MIN_WAIT_TIME_SEC, MAX_WAIT_TIME_SEC) * 1000;
         GameUtil::SetVehiclesToRealPhysics ();
 
+        CPlayerPed *player = FindPlayerPed ();
+
         if (isPlayerOnly)
         {
-            DoCoughEffect (FindPlayerPed (), inst);
+            if (!GameUtil::IsPlayerSafe ()) return;
+
+            DoCoughEffect (player, inst);
         }
         else
         {
             for (CPed *ped : CPools::ms_pPedPool)
             {
+                if (ped == player && !GameUtil::IsPlayerSafe ()) continue;
+
                 if (inst->Random (0, 100000) % 3 == 0) continue;
 
                 DoCoughEffect (ped, inst);
