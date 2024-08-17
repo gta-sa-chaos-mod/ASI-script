@@ -162,8 +162,8 @@ Enabled = false
 
 # Prevents new effects from happening when the recent effect list is full.
 # Check Drawing.NumRecentEffects for the amount of effects drawn on screen.
-# Default: true
-PreventNewEffectsWhenFull = true
+# Default: false
+PreventNewEffectsWhenFull = false
 
 # Ensures that effects overriding one another aren't activated at the same time.
 #

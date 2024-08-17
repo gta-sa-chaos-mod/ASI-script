@@ -15,6 +15,7 @@ public:
     {
         didSave = false;
 
+        inst->SetIsOneTimeEffect ();
         inst->OverrideName ("Quicksaving...");
     }
 
