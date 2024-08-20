@@ -2,17 +2,19 @@
 #include "util/GenericUtil.h"
 #include "util/GlobalRenderer.h"
 
+// TODO: Blacklist "Highjack" vehicles as well
+
 template <RwV3d scale, float zAdjustment = 0.0f>
 class VehicleSizeEffect : public EffectBase
 {
-    static inline bool isOnTankingMission  = false;
+    static inline bool isOnTruckingMission = false;
     static inline bool isOnForkliftMission = false;
 
 public:
     void
     OnStart (EffectInstance *inst) override
     {
-        isOnTankingMission  = false;
+        isOnTruckingMission = false;
         isOnForkliftMission = false;
         GlobalRenderer::RenderVehicleEvent += RenderVehicle;
     }
@@ -32,7 +34,7 @@ public:
     void
     UpdateMissionChecks ()
     {
-        isOnTankingMission  = false;
+        isOnTruckingMission = false;
         isOnForkliftMission = false;
 
         for (auto i = CTheScripts::pActiveScripts; i; i = i->m_pNext)
@@ -42,9 +44,10 @@ public:
             std::string missionName
                 = GenericUtil::ToUpper (std::string (i->m_szName));
 
-            if (missionName == "CAT3" || missionName == "TRUCK")
+            if (missionName == "CAT3" || missionName == "TRUCK"
+                || missionName == "TORENO2")
             {
-                isOnTankingMission = true;
+                isOnTruckingMission = true;
             }
 
             if (missionName == "RYDER2")
@@ -57,7 +60,7 @@ public:
     static bool
     IsVehicleModelValid (int modelId)
     {
-        if (isOnTankingMission)
+        if (isOnTruckingMission)
         {
             switch (modelId)
             {

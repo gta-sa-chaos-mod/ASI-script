@@ -7,12 +7,11 @@
 using namespace plugin;
 
 // TODO: Explode BMX separately
-// TODO: Planes aren't affected anymore, calculate differently
 
 class MinimumSpeedEffect : public EffectBase
 {
-    static inline const float VELOCITY_CONST           = 0.277778f / 50.f;
-    static inline const float FALLBACK_SPEED_THRESHOLD = 80.0f;
+    static inline const float VELOCITY_CONST = 0.277778f / 50.f;
+    static inline const float MAX_SPEED      = 80.0f;
 
     static inline CVehicle *lastVehicle;
     static inline int       timeLeft     = 1000 * 10;
@@ -61,7 +60,7 @@ public:
 
         int tick = (int) GenericUtil::CalculateTick ();
 
-        if (currentSpeed >= GetVehicleMaxSpeed () / 2)
+        if (currentSpeed >= GetMaxAllowedSpeed ())
             timeLeft += tick;
         else
         {
@@ -86,21 +85,24 @@ public:
         if (!IsVehiclePointerValid (lastVehicle)) return 0.0f;
 
         float currentSpeed
-            = lastVehicle->m_pHandlingData->m_transmissionData.m_fCurrentSpeed
-              / VELOCITY_CONST;
+            = lastVehicle->m_vecMoveSpeed.Magnitude () / VELOCITY_CONST;
 
         return std::abs (currentSpeed);
     }
 
     static float
-    GetVehicleMaxSpeed ()
+    GetMaxAllowedSpeed ()
     {
-        if (!IsVehiclePointerValid (lastVehicle))
-            return FALLBACK_SPEED_THRESHOLD;
+        return MAX_SPEED;
 
-        return lastVehicle->m_pHandlingData->m_transmissionData
-                   .m_fMaxGearVelocity
-               / VELOCITY_CONST;
+        // Calculating vehicle max speeds is a bit unreliable so for now
+        // we'll just revert to a set 80km/h as per the movie.
+
+        // if (!IsVehiclePointerValid (lastVehicle)) return MAX_SPEED;
+
+        // return lastVehicle->m_pHandlingData->m_transmissionData
+        //            .m_fMaxGearVelocity
+        //        / VELOCITY_CONST;
     }
 
     bool
@@ -201,9 +203,8 @@ public:
         char speedBuffer[64];
         sprintf_s (speedBuffer, "%.0f", currentSpeed);
 
-        CRGBA speedColor = currentSpeed > (GetVehicleMaxSpeed () / 2)
-                               ? color::White
-                               : color::Orange;
+        CRGBA speedColor = currentSpeed > GetMaxAllowedSpeed () ? color::White
+                                                                : color::Orange;
 
         gamefont::PrintUnscaled (speedBuffer,
                                  left + (SCREEN_MULTIPLIER (width) / 2),

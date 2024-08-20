@@ -75,10 +75,10 @@ public:
         return effectInstance;
     }
 
-    virtual void OnStart (EffectInstance *instance){};
-    virtual void OnEnd (EffectInstance *instance){};
-    virtual void OnTick (EffectInstance *instance){};
-    virtual void OnProcessScripts (EffectInstance *instance){};
+    virtual void OnStart (EffectInstance *instance) {};
+    virtual void OnEnd (EffectInstance *instance) {};
+    virtual void OnTick (EffectInstance *instance) {};
+    virtual void OnProcessScripts (EffectInstance *instance) {};
     virtual bool
     CanTickDown (EffectInstance *instance)
     {

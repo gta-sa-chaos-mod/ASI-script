@@ -16,7 +16,7 @@ EffectInstance::Start ()
     if (this->effect)
     {
         std::string file = "ChaosMod/audio/";
-        file.append (this->effect->GetID ());
+        file.append (this->GetSoundID ());
         file.append (".ogg");
 
         const char *path = GAME_PATH ((char *) file.c_str ());

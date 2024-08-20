@@ -28,10 +28,8 @@ public:
         CClock::ms_nGameClockMinutes = 0;
         CClock::ms_nGameClockSeconds = 0;
         CWeather::ForceWeatherNow (forceWeather);
-        CTimeCycle::m_CurrentColours.m_fFarClip = 150.0f;
+        CTimeCycle::m_CurrentColours.m_fFarClip = 100.0f;
     }
 };
 
-DEFINE_EFFECT (MistEffect, "effect_mist",
-               GROUP_NPC_SPAWNS | GROUP_CAMERA | GROUP_VISION | GROUP_WEATHER
-                   | GROUP_VEHICLE_RARITY);
+DEFINE_EFFECT (MistEffect, "effect_mist", GROUP_VISION | GROUP_WEATHER);
