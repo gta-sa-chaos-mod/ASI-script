@@ -44,7 +44,7 @@ public:
             p.y += inst->Random (-5.0f, 5.0f);
             p.z = CWorld::FindGroundZForCoord (p.x, p.y);
             auto *fire
-                = gFireManager.StartFire (p, 1.0f, 0, player, 6000, 0, 1);
+                = gFireManager.StartFire (p, 1.0f, 0, nullptr, 6000, 0, 1);
             fireCoords.emplace_back (fire);
             spawnFireTimer -= SPAWN_FIRE_TIME;
         }
@@ -60,8 +60,7 @@ public:
                     if (pointInRadius (ped->GetPosition (), fire->m_vecPosition,
                                        1.5f))
                     {
-                        gFireManager.StartFire (ped, fire->m_pEntityCreator,
-                                                1.0f, 0, 500, 0);
+                        gFireManager.StartFire (ped, nullptr, 1.0f, 0, 500, 0);
                     }
                 }
             }
