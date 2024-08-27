@@ -25,9 +25,11 @@ class GameHandler
 
     static inline bool didTryLoadAutoSave = false;
 
-    static inline int lastMissionsPassed = -1;
-    static inline int lastSaved          = 0;
-    static inline int lastQuickSave      = 0;
+    static inline int                                   lastMissionsPassed = -1;
+    static inline std::chrono::steady_clock::time_point lastSaved
+        = std::chrono::steady_clock::now ();
+    static inline std::chrono::steady_clock::time_point lastQuickSave
+        = std::chrono::steady_clock::now ();
 
     static inline CStuntJump *&currentStuntJump = *(CStuntJump **) 0xA9A88C;
 
@@ -130,8 +132,6 @@ private:
         if (!CONFIG ("Chaos.AutosaveAfterMissionPassed", true)) return;
 
         int missionsPassed = GameUtil::GetRealMissionsPassed ();
-        int currentTime    = std::max (CTimer::m_snTimeInMillisecondsNonClipped,
-                                       (unsigned int) lastMissionsPassed);
 
         if (lastMissionsPassed == -1)
         {
@@ -142,6 +142,7 @@ private:
             lastMissionsPassed = missionsPassed;
         }
 
+        auto currentTime = std::chrono::steady_clock::now ();
         if (missionsPassed > lastMissionsPassed && lastSaved < currentTime
             && !CTheScripts::IsPlayerOnAMission ())
         {
@@ -155,7 +156,7 @@ private:
 
             EffectHandler::HandleFunction (json);
 
-            lastSaved = currentTime + 1000;
+            lastSaved = currentTime + std::chrono::milliseconds{10000};
         }
     }
 
@@ -164,13 +165,12 @@ private:
     {
         if (!CONFIG ("Chaos.QuickSave", false)) return;
 
-        int currentTime = std::max (CTimer::m_snTimeInMillisecondsNonClipped,
-                                    (unsigned int) lastQuickSave);
+        auto currentTime = std::chrono::steady_clock::now ();
 
         if (!FrontEndMenuManager.m_bMenuActive && KeyPressed (VK_F7)
             && lastQuickSave < currentTime)
         {
-            lastQuickSave = currentTime + 1000;
+            lastQuickSave = currentTime + std::chrono::milliseconds{10000};
 
             nlohmann::json json;
 
@@ -246,7 +246,6 @@ private:
     Hooked_CTheScripts_Load (auto &&cb)
     {
         lastMissionsPassed = -1;
-        lastSaved          = 0;
 
         return cb ();
     }
