@@ -29,6 +29,7 @@ public:
         HOOK_ARGS (inst, Hooked_RandomizeTrafficCars, signed int (int *),
                    0x43022A);
 
+        // CCarCtrl::ChooseCarModelToLoad
         HOOK (inst, Hooked_RandomizeCarToLoad, signed int (int *), 0x40B4CB,
               0x40B596, 0x40B62F, 0x40ED07);
 
@@ -54,6 +55,22 @@ public:
         HOOK_METHOD_ARGS (inst, Hooked_RandomizeRoadblocks,
                           CVehicle * (CVehicle *, int, char, char), 0x462217,
                           0x4998F0, 0x42B909);
+
+        // Firetruck occupants
+        HOOK_ARGS (inst, Hooked_FixFiretruckAndAmbulanceOccupants,
+                   void (uint8_t *), 0x42BC1A, 0x42BBFB);
+    }
+
+    static void
+    Hooked_FixFiretruckAndAmbulanceOccupants (auto &&cb, uint8_t *vehicle)
+    {
+        LoadCarModel ();
+
+        // 13 is some ped type I think?
+        // TODO: Figure out what 13 *is* and see if we can have it be emergency
+        // or fireman instead - for now this should fix crashes though
+        CCarCtrl::SetUpDriverAndPassengersForVehicle ((CVehicle *) vehicle, 13,
+                                                      0, 0, 0, 99);
     }
 
     static bool
