@@ -62,7 +62,7 @@ public:
                 if (!ped || !ped->IsAlive () || !IsPedUnderRain (ped)) continue;
 
                 if (ped != player && inst->Random (0, 10000) % 5 == 0
-                    || ped->m_nCreatedBy != 2)
+                    && ped->m_nCreatedBy != 2)
                 {
                     auto p = ped->GetPosition ();
                     if (inst->Random (0, 10000) % 2 == 0)
@@ -82,7 +82,7 @@ public:
                 {
                     continue;
                 }
-                float multiplier = 0.005f;
+                float multiplier = 0.0045f;
                 if (ped->m_pIntelligence->GetTaskSwim ())
                 {
                     multiplier *= 0.5f;
@@ -98,7 +98,7 @@ public:
                 auto p = vehicle->GetPosition ();
                 if (!IsUnderRain (isCullZone (p.x, p.y, p.z))) continue;
 
-                vehicle->m_fHealth -= 7.0f;
+                vehicle->m_fHealth -= 4.5f;
                 vehicle->m_fHealth = std::max (0.0f, vehicle->m_fHealth);
             }
 
