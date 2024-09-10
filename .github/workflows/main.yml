@@ -7,16 +7,16 @@ jobs:
     runs-on: windows-latest
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
 
     - name: Setup
-      uses: ilammy/msvc-dev-cmd@v1.12.0
+      uses: ilammy/msvc-dev-cmd@v1.13.0
       with:
         arch: x86
 
     - name: Cache bin
       id: cache-bin
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       with:
         path: bin
         key: ${{ runner.os }}-bin
@@ -40,19 +40,19 @@ jobs:
         cp TrilogyChaosMod.SA.asi output_SA/TrilogyChaosMod.SA.asi
 
     - name: Upload III
-      uses: actions/upload-artifact@v1
+      uses: actions/upload-artifact@v4
       with:
         name: "TrilogyChaosMod.III"
         path: bin/output_III
 
     - name: Upload VC
-      uses: actions/upload-artifact@v1
+      uses: actions/upload-artifact@v4
       with:
         name: "TrilogyChaosMod.VC"
         path: bin/output_VC
         
     - name: Upload SA
-      uses: actions/upload-artifact@v1
+      uses: actions/upload-artifact@v4
       with:
         name: "TrilogyChaosMod.SA"
         path: bin/output_SA
