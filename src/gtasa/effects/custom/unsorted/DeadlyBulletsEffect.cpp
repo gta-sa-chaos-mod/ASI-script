@@ -14,27 +14,27 @@ public:
     {
         if (!isPlayerOnly)
         {
-            HOOK_METHOD_ARGS (inst, Hooked_ComputeWillKillPed_everyone,
-                              void (CPedDamageResponseCalculator *, CPed *,
-                                    uint8_t *, char),
-                              0x4B5B27);
-
             HOOK_METHOD_ARGS (inst, Hooked_VehicleInflictDamage_everyone,
                               void (CVehicle *, CEntity *, eWeaponType, float,
                                     CVector),
                               0x6D7C90);
+
+            HOOK_METHOD_ARGS (inst, Hooked_AccountForPedArmour_everyone,
+                              void (CPedDamageResponseCalculator *, CPed *,
+                                    uint8_t *),
+                              0x4B5B19);
         }
         else
         {
-            HOOK_METHOD_ARGS (inst, Hooked_ComputeWillKillPed_player,
-                              void (CPedDamageResponseCalculator *, CPed *,
-                                    uint8_t *, char),
-                              0x4B5B27);
-
             HOOK_METHOD_ARGS (inst, Hooked_VehicleInflictDamage_player,
                               void (CVehicle *, CEntity *, eWeaponType, float,
                                     CVector),
                               0x6D7C90);
+
+            HOOK_METHOD_ARGS (inst, Hooked_AccountForPedArmour_player,
+                              void (CPedDamageResponseCalculator *, CPed *,
+                                    uint8_t *),
+                              0x4B5B19);
         }
     }
 
@@ -73,14 +73,11 @@ public:
     }
 
     static void
-    Hooked_ComputeWillKillPed_player (auto                        &&cb,
-                                      CPedDamageResponseCalculator *thisCalc,
-                                      CPed *ped, uint8_t *cDamageResponseInfo,
-                                      char a4)
+    Hooked_AccountForPedArmour_player (auto                        &&cb,
+                                       CPedDamageResponseCalculator *thisCalc,
+                                       CPed *ped, uint8_t *data)
     {
-        if (thisCalc->m_pDamager != FindPlayerPed ()) return;
-
-        if (thisCalc->m_weaponType >= WEAPON_PISTOL
+        if (ped != FindPlayerPed () && thisCalc->m_weaponType >= WEAPON_PISTOL
             && thisCalc->m_weaponType <= WEAPON_SNIPERRIFLE)
         {
             thisCalc->m_fDamageFactor *= dmgMult;
@@ -90,10 +87,9 @@ public:
     }
 
     static void
-    Hooked_ComputeWillKillPed_everyone (auto                        &&cb,
-                                        CPedDamageResponseCalculator *thisCalc,
-                                        CPed *ped, uint8_t *cDamageResponseInfo,
-                                        char a4)
+    Hooked_AccountForPedArmour_everyone (auto                        &&cb,
+                                         CPedDamageResponseCalculator *thisCalc,
+                                         CPed *ped, uint8_t *data)
     {
         if (thisCalc->m_weaponType >= WEAPON_PISTOL
             && thisCalc->m_weaponType <= WEAPON_SNIPERRIFLE)
@@ -108,8 +104,6 @@ public:
 using DeadlyBulletsEffectQuad = DeadlyBulletsEffect<4.0f>;
 
 /* clang-format off */
-DEFINE_EFFECT (DeadlyBulletsEffectQuad, "effect_deadly_bullets_quad_dmg_everyone",
-               GROUP_WEAPONS, false);
-DEFINE_EFFECT (DeadlyBulletsEffectQuad, "effect_deadly_bullets_quad_dmg_player",
-               GROUP_WEAPONS, true);
+DEFINE_EFFECT (DeadlyBulletsEffectQuad, "effect_deadly_bullets_quad_dmg_everyone", GROUP_WEAPONS, false);
+DEFINE_EFFECT (DeadlyBulletsEffectQuad, "effect_deadly_bullets_quad_dmg_player", GROUP_WEAPONS, true);
 /* clang-format on */
