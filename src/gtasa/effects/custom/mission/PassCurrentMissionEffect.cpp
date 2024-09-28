@@ -151,6 +151,7 @@ class PassCurrentMissionEffect : public EffectBase
         /* Las Venturas */
         "DES3",    // Interdiction
         "DESERT6", // N.O.E.
+        "DESERT9", // Stowaway
         "CASINO6", // The Meat Business
         "HEIST3",  // Key To Her Heart
         /* ######################### */
