@@ -146,6 +146,19 @@ Teleportation::TeleportOutOfMission (std::string missionName)
             Teleportation::Teleport (CVector (1051.0f, 2087.0f, 12.0f));
         }
     }
+    else if (missionName == "DESERT9")
+    {
+        CPed *player;
+        Command<Commands::GET_PLAYER_CHAR> (0, &player);
+        if(player
+            && Command<Commands::IS_CHAR_IN_AREA_3D> (
+                player, 308.4034, 1065.3812, 1942.6986, 325.2043, 949.9332, 1980.3237,
+                        0))
+        {
+        Teleportation::Teleport (CVector (177.9967, 1099.6215, 700.0));
+        CCheat::ParachuteCheat ();
+        }
+    }
     else if (missionName == "MAF4")
     { // Black Project
         CPed *player;
